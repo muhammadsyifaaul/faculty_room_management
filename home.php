@@ -10,6 +10,8 @@ if (!$usermail) {
     exit();
 }
 
+$reservation_status = ""; // Tambahkan flag ini
+
 if (isset($_POST['guestdetailsubmit'])) {
     $nama_dosen = $_POST['Name'];
     $matkul = $_POST['matkul'];
@@ -20,32 +22,19 @@ if (isset($_POST['guestdetailsubmit'])) {
     $fakultas = $_POST['fakultas'];
 
     if ($nama_dosen == "" || $matkul == "" || $jam_mulai == "" || $jam_selesai == "" || $tanggal == "" || $id_ruang == "" || $fakultas == "") {
-        echo "<script>swal({
-                        title: 'Fill the proper details',
-                        icon: 'error',
-                    });
-                    </script>";
+        $reservation_status = "empty_fields";
     } else {
         $sql = "INSERT INTO resev_ruangan (`nama_dosen`, `matkul`, `jam_mulai`, `tanggal`, `jam_selesai`, `id_ruang`, `fakultas`) VALUES ('$nama_dosen', '$matkul', '$jam_mulai', '$tanggal', '$jam_selesai', '$id_ruang', '$fakultas')";
         $result = mysqli_query($conn, $sql);
 
         if ($result) {
-            echo "<script>swal({
-                                title: 'Reservation successful',
-                                icon: 'success',
-                            });
-                        </script>";
+            $reservation_status = "success";
         } else {
-            echo "<script>swal({
-                                    title: 'Something went wrong',
-                                    icon: 'error',
-                                });
-                        </script>";
+            $reservation_status = "error";
         }
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -72,7 +61,6 @@ if (isset($_POST['guestdetailsubmit'])) {
       }
     </style>
 </head>
-
 <body>
   <nav>
     <div class="logo">
@@ -119,11 +107,10 @@ if (isset($_POST['guestdetailsubmit'])) {
                     <h4>Guest information</h4>
                     <input type="text" name="Name" placeholder="Enter Full name">
                     <input type="text" name="matkul" placeholder="Enter Matkul">
-                    
+
                     <?php
 $ruangAll = mysqli_query($conn, "SELECT noRuang FROM ruangan");
 ?>
-
 
                 </div>
 
@@ -133,28 +120,28 @@ $ruangAll = mysqli_query($conn, "SELECT noRuang FROM ruangan");
                     <h4>Reservation information</h4>
                     <input type="text" name="fakultas" id="fakultas">
                     <select name="noRuang" class="selectinput">
-                <option value="" selected>Select your room</option>
-                <?php
+                        <option value="" selected>Select your room</option>
+                        <?php
 // Loop through each row and create an option element
 while ($row = mysqli_fetch_assoc($ruangAll)):
     echo '<option value="' . $row['noRuang'] . '">' . $row['noRuang'] . '</option>';
 endwhile;
 ?>
-            </select>
+                    </select>
 
                     <div class="datesection">
                         <span>
                             <label for="cin"> Jam Mulai</label>
-                            <input name="cin" type="number" step="0.01">
+                            <input name="cin" type="time">
                         </span>
                         <span>
                             <label for="cin"> Jam Selesai</label>
-                            <input name="cout" type ="number" step="0.01">
+                            <input name="cout" type="time">
                         </span>
                     </div>
                     <div class="date">
-                      <label for="date">Date</label>
-                      <input type="date" value="" name="date">
+                        <label for="date">Date</label>
+                        <input type="date" value="" name="date">
                     </div>
                 </div>
             </div>
@@ -217,18 +204,41 @@ endwhile;
       <h5>Copyright &copy;UIN WALISONGO 2024</h5>
     </div>
   </section>
+
+  <!-- Script untuk SweetAlert -->
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          // Flag PHP untuk status reservasi
+          var reservationStatus = "<?php echo $reservation_status; ?>";
+
+          if (reservationStatus === "success") {
+              swal({
+                  title: "Reservation successful",
+                  icon: "success"
+              });
+          } else if (reservationStatus === "error") {
+              swal({
+                  title: "Something went wrong",
+                  icon: "error"
+              });
+          } else if (reservationStatus === "empty_fields") {
+              swal({
+                  title: "Fill the proper details",
+                  icon: "error"
+              });
+          }
+      });
+
+      var bookbox = document.getElementById("guestdetailpanel");
+
+      function openbookbox(fakultas) {
+          document.getElementById("fakultas").value = fakultas;
+          bookbox.style.display = "flex";
+      }
+
+      function closebox() {
+          bookbox.style.display = "none";
+      }
+  </script>
 </body>
-
-<script>
-    var bookbox = document.getElementById("guestdetailpanel");
-
-    openbookbox = (fakultas) => {
-      document.getElementById("fakultas").value = fakultas;
-      bookbox.style.display = "flex";
-    }
-
-    closebox = () =>{
-      bookbox.style.display = "none";
-    }
-</script>
 </html>
