@@ -2,29 +2,29 @@
 include 'config.php';
 session_start();
 
-// page redirect
-$usermail = "";
-$usermail = $_SESSION['usermail'];
-if (!$usermail) {
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Redirect if not logged in
+if (!isset($_SESSION['usermail'])) {
     header("location: index.php");
     exit();
 }
-
-$reservation_status = ""; // Tambahkan flag ini
+$reservation_status = "";
 
 if (isset($_POST['guestdetailsubmit'])) {
-    $nama_dosen = $_POST['Name'];
-    $matkul = $_POST['matkul'];
-    $jam_mulai = $_POST['cin'];
-    $jam_selesai = $_POST['cout'];
-    $tanggal = $_POST['date'];
-    $id_ruang = $_POST['noRuang'];
-    $fakultas = $_POST['fakultas'];
+    $nama_dosen = mysqli_real_escape_string($conn, $_POST['Name']);
+    $matkul = mysqli_real_escape_string($conn, $_POST['matkul']);
+    $jam_mulai = mysqli_real_escape_string($conn, $_POST['cin']);
+    $jam_selesai = mysqli_real_escape_string($conn, $_POST['cout']);
+    $tanggal = mysqli_real_escape_string($conn, $_POST['date']);
+    $id_ruang = mysqli_real_escape_string($conn, $_POST['noRuang']);
+    $fakultas = mysqli_real_escape_string($conn, $_POST['fakultas']);
 
-    if ($nama_dosen == "" || $matkul == "" || $jam_mulai == "" || $jam_selesai == "" || $tanggal == "" || $id_ruang == "" || $fakultas == "") {
+    if (empty($nama_dosen) || empty($matkul) || empty($jam_mulai) || empty($jam_selesai) || empty($tanggal) || empty($id_ruang) || empty($fakultas)) {
         $reservation_status = "empty_fields";
     } else {
-        $sql = "INSERT INTO resev_ruangan (`nama_dosen`, `matkul`, `jam_mulai`, `tanggal`, `jam_selesai`, `id_ruang`, `fakultas`) VALUES ('$nama_dosen', '$matkul', '$jam_mulai', '$tanggal', '$jam_selesai', '$id_ruang', '$fakultas')";
+        $sql = "INSERT INTO resev_ruangan (nama_dosen, matkul, jam_mulai, tanggal, jam_selesai, no_ruang, fakultas) VALUES ('$nama_dosen', '$matkul', '$jam_mulai', '$tanggal', '$jam_selesai', '$id_ruang', '$fakultas')";
         $result = mysqli_query($conn, $sql);
 
         if ($result) {
@@ -33,6 +33,16 @@ if (isset($_POST['guestdetailsubmit'])) {
             $reservation_status = "error";
         }
     }
+}
+
+// Fetch all rooms
+$ruangAll = mysqli_query($conn, "SELECT noRuang FROM ruangan");
+
+// Fetch booked rooms
+$bookedRoomsQuery = mysqli_query($conn, "SELECT no_ruang FROM resev_ruangan");
+$bookedRooms = [];
+while ($row = mysqli_fetch_assoc($bookedRoomsQuery)) {
+    $bookedRooms[] = $row['no_ruang'];
 }
 ?>
 
@@ -59,8 +69,13 @@ if (isset($_POST['guestdetailsubmit'])) {
       #guestdetailpanel .middle{
         height: 450px;
       }
+      .booked-room {
+          background-color: red;
+          color: white;
+      }
     </style>
 </head>
+
 <body>
   <nav>
     <div class="logo">
@@ -107,11 +122,6 @@ if (isset($_POST['guestdetailsubmit'])) {
                     <h4>Guest information</h4>
                     <input type="text" name="Name" placeholder="Enter Full name">
                     <input type="text" name="matkul" placeholder="Enter Matkul">
-
-                    <?php
-$ruangAll = mysqli_query($conn, "SELECT noRuang FROM ruangan");
-?>
-
                 </div>
 
                 <div class="line"></div>
@@ -120,12 +130,13 @@ $ruangAll = mysqli_query($conn, "SELECT noRuang FROM ruangan");
                     <h4>Reservation information</h4>
                     <input type="text" name="fakultas" id="fakultas">
                     <select name="noRuang" class="selectinput">
-                        <option value="" selected>Select your room</option>
+                        <option value="" selected>Select Room</option>
                         <?php
-// Loop through each row and create an option element
-while ($row = mysqli_fetch_assoc($ruangAll)):
-    echo '<option value="' . $row['noRuang'] . '">' . $row['noRuang'] . '</option>';
-endwhile;
+while ($row = mysqli_fetch_assoc($ruangAll)) {
+    $isBooked = in_array($row['noRuang'], $bookedRooms);
+    $class = $isBooked ? 'booked-room' : '';
+    echo '<option value="' . $row['noRuang'] . '" class="' . $class . '">' . $row['noRuang'] . '</option>';
+}
 ?>
                     </select>
 
@@ -140,8 +151,8 @@ endwhile;
                         </span>
                     </div>
                     <div class="date">
-                        <label for="date">Date</label>
-                        <input type="date" value="" name="date">
+                      <label for="date">Date</label>
+                      <input type="date" value="" name="date">
                     </div>
                 </div>
             </div>
@@ -162,7 +173,6 @@ endwhile;
           <div class="hotelphoto h1"></div>
           <div class="roomdata">
             <h2>SAINTEK</h2>
-
             <button class="btn btn-primary bookbtn" onclick="openbookbox('SAINTEK')">Reservation</button>
           </div>
         </div>
@@ -170,7 +180,6 @@ endwhile;
           <div class="hotelphoto h2"></div>
           <div class="roomdata">
             <h2>FISIP</h2>
-
             <button class="btn btn-primary bookbtn" onclick="openbookbox('FISIP')">Reservation</button>
           </div>
         </div>
@@ -178,7 +187,6 @@ endwhile;
           <div class="hotelphoto h3"></div>
           <div class="roomdata">
             <h2>FITK</h2>
-
             <button class="btn btn-primary bookbtn" onclick="openbookbox('FITK')">Reservation</button>
           </div>
         </div>
@@ -186,7 +194,6 @@ endwhile;
           <div class="hotelphoto h4"></div>
           <div class="roomdata">
             <h2>FUHUM</h2>
-
             <button class="btn btn-primary bookbtn" onclick="openbookbox('FUHUM')">Reservation</button>
           </div>
         </div>
@@ -204,10 +211,10 @@ endwhile;
       <h5>Copyright &copy;UIN WALISONGO 2024</h5>
     </div>
   </section>
+</body>
 
-  <!-- Script untuk SweetAlert -->
-  <script>
-      document.addEventListener('DOMContentLoaded', function() {
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
           // Flag PHP untuk status reservasi
           var reservationStatus = "<?php echo $reservation_status; ?>";
 
@@ -239,6 +246,5 @@ endwhile;
       function closebox() {
           bookbox.style.display = "none";
       }
-  </script>
-</body>
+</script>
 </html>

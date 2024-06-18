@@ -258,6 +258,11 @@ font-size: 30px;
 
     margin-left: -20rem;
 }
+.datesection  {
+    width: 550px;
+
+}
+
 
 .box:nth-child(1){
     background-image: url(../image/swimingpool.jpg);
