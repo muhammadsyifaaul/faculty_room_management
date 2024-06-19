@@ -170,28 +170,28 @@ while ($row = mysqli_fetch_assoc($ruangAll)) {
       <h1 class="head">≼ FACULTY ≽</h1>
       <div class="roomselect">
         <div class="roombox">
-          <div class="hotelphoto h1"></div>
+          <div class="roomphoto h1"></div>
           <div class="roomdata">
             <h2>SAINTEK</h2>
             <button class="btn btn-primary bookbtn" onclick="openbookbox('SAINTEK')">Reservation</button>
           </div>
         </div>
         <div class="roombox">
-          <div class="hotelphoto h2"></div>
+          <div class="roomphoto h2"></div>
           <div class="roomdata">
             <h2>FISIP</h2>
             <button class="btn btn-primary bookbtn" onclick="openbookbox('FISIP')">Reservation</button>
           </div>
         </div>
         <div class="roombox">
-          <div class="hotelphoto h3"></div>
+          <div class="roomphoto h3"></div>
           <div class="roomdata">
             <h2>FITK</h2>
             <button class="btn btn-primary bookbtn" onclick="openbookbox('FITK')">Reservation</button>
           </div>
         </div>
         <div class="roombox">
-          <div class="hotelphoto h4"></div>
+          <div class="roomphoto h4"></div>
           <div class="roomdata">
             <h2>FUHUM</h2>
             <button class="btn btn-primary bookbtn" onclick="openbookbox('FUHUM')">Reservation</button>
