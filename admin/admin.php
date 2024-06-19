@@ -39,8 +39,8 @@ if($usermail == true){
     <!-- nav bar -->
     <nav class="uppernav">
         <div class="logo">
-            <img class="bluebirdlogo" src="../image/bluebirdlogo.png" alt="logo">
-            <p>BLUEBIRD</p>
+            <img class="bluebirdlogo" src="../image/logouin-removebg-preview.png" alt="logo" width="30px" height="50px">
+            <p>WALIFAROMA</p>
         </div>
         <div class="logout">
         <a href="../logout.php"><button class="btn btn-primary">Logout</button></a>

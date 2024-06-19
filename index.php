@@ -21,7 +21,7 @@ session_start();
     <!-- loading bar -->
     <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
     <link rel="stylesheet" href="./css/flash.css">
-    <title>ROOM MANAGEMENT SYSTEM</title>
+    <title>FACULTY ROOM MANAGEMENT SYSTEM</title>
 </head>
 
 <body>
@@ -49,7 +49,7 @@ session_start();
 
         <div class="logo">
             <img class="bluebirdlogo" src="./image/logouin.jpg" alt="logo">
-            <p>ROOM MANAGEMENT SYSTEM</p>
+            <p>WALIFAROMA</p>
         </div>
 
         <div class="auth_container">

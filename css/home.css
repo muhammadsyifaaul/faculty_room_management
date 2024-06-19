@@ -75,7 +75,7 @@ ul li a:hover{
     display: flex;
     justify-content: center;
 }
-.logo .bluebirdlogo {
+.logo .logouin {
     height: 100%;
 }
 
@@ -188,7 +188,7 @@ ul li a:hover{
     /* margin: 0 20px; */
 }
 
-.hotelphoto{
+.roomphoto{
     height: 250px;
     width: 100%;
     background-color: aquamarine;

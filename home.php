@@ -79,8 +79,8 @@ while ($row = mysqli_fetch_assoc($bookedRoomsQuery)) {
 <body>
   <nav>
     <div class="logo">
-      <img class="bluebirdlogo" src="./image/bluebirdlogo.png" alt="logo">
-      <p>BLUEBIRD</p>
+      <img class="logouin" src="./image/logouin-removebg-preview.png" alt="logo">
+      <p>WALIFAROMA</p>
     </div>
     <ul>
       <li><a href="#firstsection">Home</a></li>
