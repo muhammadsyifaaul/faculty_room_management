@@ -44,18 +44,26 @@ $chartroom2row = mysqli_num_rows($chartroom2re);
 $chartroom3re = mysqli_query($conn, $chartroom3);
 $chartroom3row = mysqli_num_rows($chartroom3re);
 
-// moriss profit
+// user reservation count
 if ($dateFilter) {
-    $query = "SELECT * FROM payment WHERE DATE(cout) = '$dateFilter'";
+    $userCountSql = "SELECT COUNT(DISTINCT nama_dosen) AS user_count FROM resev_ruangan WHERE DATE(tanggal) = '$dateFilter'";
 } else {
-    $query = "SELECT * FROM payment";
+    $userCountSql = "SELECT COUNT(DISTINCT nama_dosen) AS user_count FROM resev_ruangan";
+}
+$userCountResult = mysqli_query($conn, $userCountSql);
+$userCountRow = mysqli_fetch_assoc($userCountResult);
+$userCount = $userCountRow['user_count'];
+
+// user reservation chart data
+if ($dateFilter) {
+    $query = "SELECT DATE(tanggal) as date, COUNT(DISTINCT nama_dosen) as users FROM resev_ruangan WHERE DATE(tanggal) = '$dateFilter' GROUP BY DATE(tanggal)";
+} else {
+    $query = "SELECT DATE(tanggal) as date, COUNT(DISTINCT nama_dosen) as users FROM resev_ruangan GROUP BY DATE(tanggal)";
 }
 $result = mysqli_query($conn, $query);
 $chart_data = '';
-$tot = 0;
 while ($row = mysqli_fetch_array($result)) {
-    $chart_data .= "{ date:'" . $row["cout"] . "', profit:" . $row["finaltotal"] * 10 / 100 . "}, ";
-    $tot = $tot + $row["finaltotal"] * 10 / 100;
+    $chart_data .= "{ date:'" . $row["date"] . "', users:" . $row["users"] . "}, ";
 }
 $chart_data = substr($chart_data, 0, -2);
 ?>
@@ -76,13 +84,13 @@ $chart_data = substr($chart_data, 0, -2);
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
-    <title>BlueBird - Admin </title>
+    <title>WALIFAROMA - Admin </title>
 </head>
 <body>
     <div class="databox">
 
         <div class="box roombookbox">
-            <h2>Total Booked Room</h2>
+            <h2>Reserved</h2>
             <h1><?php echo $roombookrow ?> / <?php echo $roomrow ?></h1>
         </div>
         <div class="box guestbox">
@@ -90,25 +98,25 @@ $chart_data = substr($chart_data, 0, -2);
             <h1><?php echo $staffrow ?></h1>
         </div>
         <div class="box profitbox">
-            <h2>Profit</h2>
-            <h1><?php echo $tot ?> <span>&#8377</span></h1>
+            <h2>User Total</h2>
+            <h1><?php echo $userCount ?></h1>
         </div>
     </div>
 
     <div class="chartbox">
 
         <div class="bookroomchart">
-        <form method="post" action="">
+        <form method="post" action="" class="datefilter">
             <label for="date">Select Date: </label>
             <input type="date" id="date" name="date">
             <input type="submit" value="Filter">
         </form>
             <canvas id="bookroomchart"></canvas>
-            <h3 style="text-align: center;margin:10px 0;">Booked Room</h3>
+            <h3 style="text-align: center;margin:10px 0;">Reserved Room</h3>
         </div>
         <div class="profitchart">
-            <div id="profitchart"></div>
-            <h3 style="text-align: center;margin:10px 0;">Profit</h3>
+            <div id="userchart"></div>
+            <h3 style="text-align: center;margin:10px 0;">Users Reserving Rooms</h3>
         </div>
     </div>
 </body>
@@ -147,15 +155,15 @@ $chart_data = substr($chart_data, 0, -2);
 
 <script>
     Morris.Bar({
-        element: 'profitchart',
+        element: 'userchart',
         data: [<?php echo $chart_data; ?>],
         xkey: 'date',
-        ykeys: ['profit'],
-        labels: ['Profit'],
+        ykeys: ['users'],
+        labels: ['Users'],
         hideHover: 'auto',
         stacked: true,
         barColors: [
-            'rgba(153, 102, 255, 1)',
+            'rgba(54, 162, 235, 1)',
         ]
     });
 </script>

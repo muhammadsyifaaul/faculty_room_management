@@ -4,12 +4,12 @@ include '../config.php';
 session_start();
 
 // page redirect
-$usermail="";
-$usermail=$_SESSION['usermail'];
-if($usermail == true){
+$usermail = "";
+$usermail = $_SESSION['usermail'];
+if ($usermail == true) {
 
-}else{
-  header("location: http://localhost/hotelmanage_system/index.php");
+} else {
+    header("location: http://localhost/hotelmanage_system/index.php");
 }
 
 ?>
@@ -27,7 +27,7 @@ if($usermail == true){
     <link rel="stylesheet" href="../css/flash.css">
     <!-- fontowesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <title>BlueBird - Admin</title>
+    <title>WALIFAROMA - Admin</title>
 </head>
 
 <body>
@@ -35,7 +35,7 @@ if($usermail == true){
     <div id="mobileview">
         <h5>Admin panel doesn't show in mobile view</h4>
     </div>
-  
+
     <!-- nav bar -->
     <nav class="uppernav">
         <div class="logo">
@@ -49,8 +49,8 @@ if($usermail == true){
     <nav class="sidenav">
         <ul>
             <li class="pagebtn active"><img src="../image/icon/dashboard.png">&nbsp&nbsp&nbsp Dashboard</li>
-            <li class="pagebtn"><img src="../image/icon/bed.png">&nbsp&nbsp&nbsp Room Booking</li>
-            <li class="pagebtn"><img src="../image/icon/wallet.png">&nbsp&nbsp&nbsp Payment</li>            
+            <li class="pagebtn"><img src="../image/icon/bed.png">&nbsp&nbsp&nbsp Room Reservation</li>
+            <li class="pagebtn"><img src="../image/icon/wallet.png">&nbsp&nbsp&nbsp Payment</li>
             <li class="pagebtn"><img src="../image/icon/bedroom.png">&nbsp&nbsp&nbsp Rooms</li>
             <li class="pagebtn"><img src="../image/icon/staff.png">&nbsp&nbsp&nbsp Staff</li>
         </ul>
