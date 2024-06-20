@@ -49,10 +49,8 @@ if ($usermail == true) {
     <nav class="sidenav">
         <ul>
             <li class="pagebtn active"><img src="../image/icon/dashboard.png">&nbsp&nbsp&nbsp Dashboard</li>
-            <li class="pagebtn"><img src="../image/icon/bed.png">&nbsp&nbsp&nbsp Room Reservation</li>
-            <li class="pagebtn"><img src="../image/icon/wallet.png">&nbsp&nbsp&nbsp Payment</li>
-            <li class="pagebtn"><img src="../image/icon/bedroom.png">&nbsp&nbsp&nbsp Rooms</li>
-            <li class="pagebtn"><img src="../image/icon/staff.png">&nbsp&nbsp&nbsp Staff</li>
+            <li class="pagebtn"><img src="../image/icon/s.png">&nbsp&nbsp&nbsp Room Schedule</li>
+            <li class="pagebtn"><img src="../image/icon/staff.png">&nbsp&nbsp&nbsp Rooms</li>
         </ul>
     </nav>
 
@@ -60,7 +58,6 @@ if ($usermail == true) {
     <div class="mainscreen">
         <iframe class="frames frame1 active" src="./dashboard.php" frameborder="0"></iframe>
         <iframe class="frames frame2" src="./roombook.php" frameborder="0"></iframe>
-        <iframe class="frames frame3" src="./payment.php" frameborder="0"></iframe>
         <iframe class="frames frame4" src="./room.php" frameborder="0"></iframe>
         <iframe class="frames frame4" src="./staff.php" frameborder="0"></iframe>
     </div>

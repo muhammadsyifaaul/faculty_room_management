@@ -14,10 +14,11 @@ if ($dateFilter) {
 $roombookre = mysqli_query($conn, $roombooksql);
 $roombookrow = mysqli_num_rows($roombookre);
 
-// staff
-$staffsql = "SELECT * FROM staff";
-$staffre = mysqli_query($conn, $staffsql);
-$staffrow = mysqli_num_rows($staffre);
+// total faculties
+$facultiessql = "SELECT COUNT(DISTINCT fakultas) AS total_fakultas FROM resev_ruangan";
+$facultiesre = mysqli_query($conn, $facultiessql);
+$facultiesrow = mysqli_fetch_assoc($facultiesre);
+$total_fakultas = $facultiesrow['total_fakultas'];
 
 // room
 $roomsql = "SELECT * FROM ruangan";
@@ -85,18 +86,28 @@ $chart_data = substr($chart_data, 0, -2);
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
     <title>WALIFAROMA - Admin </title>
+    <style>
+        .datefilter input{
+            border-radius: 10px;
+            padding: 6px;
+            background-color: aqua;
+            border: none;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <div class="databox">
 
         <div class="box roombookbox">
-            <h2>Reserved</h2>
+            <h2>Reserved Room</h2>
             <h1><?php echo $roombookrow ?> / <?php echo $roomrow ?></h1>
         </div>
         <div class="box guestbox">
-            <h2>Total Staff</h2>
-            <h1><?php echo $staffrow ?></h1>
+            <h2>Total Fakultas</h2>
+            <h1><?php echo $total_fakultas ?></h1>
         </div>
+
         <div class="box profitbox">
             <h2>User Total</h2>
             <h1><?php echo $userCount ?></h1>

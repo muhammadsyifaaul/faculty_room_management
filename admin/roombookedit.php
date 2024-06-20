@@ -1,7 +1,7 @@
 <?php
+session_start();
 include '../config.php';
 
-// Fetch data for the specific id
 $id = $_GET['id'];
 $sql = "SELECT * FROM resev_ruangan WHERE id = '$id'";
 $re = mysqli_query($conn, $sql);
@@ -34,18 +34,19 @@ if (isset($_POST['guestdetailedit'])) {
             tanggal = '$EditTanggal'
             WHERE id = '$id'";
 
-    $result = mysqli_query($conn, $sql);
-
-    if ($result) {
-        header("Location: roombook.php");
+    if (mysqli_query($conn, $sql)) {
+        $_SESSION['status'] = 'success';
+        $_SESSION['message'] = 'Reservation edited successfully';
     } else {
-        echo "<script>swal({
-            title: 'Something went wrong',
-            icon: 'error',
-        });</script>";
+        $_SESSION['status'] = 'error';
+        $_SESSION['message'] = 'Error editing reservation: ' . mysqli_error($conn);
     }
+
+    header("Location: roombook.php");
+    exit();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -77,6 +78,13 @@ if (isset($_POST['guestdetailedit'])) {
             top: 20px;
             animation: guestinfoform .3s ease;
         }
+        .datesection {
+            margin-left: -8rem;
+        }
+        .date {
+            margin-left: -19rem;
+        }
+        
     </style>
     <title>Edit Reservation</title>
 </head>

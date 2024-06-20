@@ -1,6 +1,9 @@
 <?php
 session_start();
 include '../config.php';
+
+$filter_date = isset($_POST['filter_date']) ? $_POST['filter_date'] : '';
+$filter_time = isset($_POST['filter_time']) ? $_POST['filter_time'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -32,6 +35,27 @@ include '../config.php';
         input::placeholder {
             text-align: center;
         }
+        .filter {
+            background: linear-gradient(rgba(251,253,254,0.4),rgba(250,252,253,0.4));
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            top: 8rem;
+            left: 2rem;
+            padding: 0.5rem 1rem;
+            z-index: 99;
+        }
+        .filter form {
+margin: auto;
+        }
+        .filter input {
+            border-radius: 10px;
+            padding: 4px;
+            background-color: aquamarine;
+            border: none;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -39,7 +63,7 @@ include '../config.php';
     <div class="addroomsection">
         <form action="" method="POST">
             <div class="faculty">
-                <h1>SAINTEK</h1>
+                <h1>FST</h1>
             </div>
             <label for="noroom">No Room :</label>
             <input name="noroom" type="number" step="0.01" placeholder="Enter No Room">
@@ -47,14 +71,14 @@ include '../config.php';
         </form>
 
         <?php
-        if (isset($_POST['addroom'])) {
-            $noroom = $_POST['noroom'];
-            
-            $sql = "INSERT INTO ruangan(noRuang) VALUES ('$noroom')";
-            $result = mysqli_query($conn, $sql);
+if (isset($_POST['addroom'])) {
+    $noroom = $_POST['noroom'];
 
-            if ($result) {
-                echo "<script>
+    $sql = "INSERT INTO ruangan(noRuang) VALUES ('$noroom')";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        echo "<script>
                         Swal.fire({
                             icon: 'success',
                             title: 'Add Room Success',
@@ -63,37 +87,50 @@ include '../config.php';
                             window.location = 'room.php';
                         });
                       </script>";
-            } else {
-                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-            }
-        }
-        ?>
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+}
+?>
+    </div>
+    <div class="filter">
+    <form method="POST" class="mb-4">
+            <label for="filter_date">Filter Date:</label>
+            <input type="date" id="filter_date" name="filter_date" value="<?php echo $filter_date; ?>">
+            <label for="filter_time">Filter Time:</label>
+            <input type="time" id="filter_time" name="filter_time" value="<?php echo $filter_time; ?>">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
     </div>
 
     <div class="room">
+
+
         <?php
-        $sql = "SELECT * FROM ruangan ORDER BY noRuang ASC";
-        $re = mysqli_query($conn, $sql);
+$sql = "SELECT * FROM ruangan ORDER BY noRuang ASC";
+$re = mysqli_query($conn, $sql);
 
-        $reservedRooms = [];
-        $sql2 = "SELECT no_ruang FROM resev_ruangan";
-        $res = mysqli_query($conn, $sql2);
-        while ($row = mysqli_fetch_array($res)) {
-            $reservedRooms[] = $row['no_ruang'];
-        }
+$reservedRooms = [];
+if (!empty($filter_date) && !empty($filter_time)) {
+    $sql2 = "SELECT no_ruang FROM resev_ruangan WHERE tanggal = '$filter_date' AND jam_mulai <= '$filter_time' AND jam_selesai >= '$filter_time'";
+    $res = mysqli_query($conn, $sql2);
+    while ($row = mysqli_fetch_array($res)) {
+        $reservedRooms[] = $row['no_ruang'];
+    }
+}
 
-        while ($row = mysqli_fetch_array($re)) {
-            $noRuang = $row['noRuang'];
-            $backgroundColor = in_array($noRuang, $reservedRooms) ? 'background-color: red;' : 'background-color: green;';
+while ($row = mysqli_fetch_array($re)) {
+    $noRuang = $row['noRuang'];
+    $backgroundColor = in_array($noRuang, $reservedRooms) ? 'background-color: red;' : 'background-color: green;';
 
-            echo "<div class='roombox' style='{$backgroundColor}'>
+    echo "<div class='roombox' style='{$backgroundColor}'>
                         <div class='text-center no-boder'>
                             <h3>{$noRuang}</h3>
                             <a href='roomdelete.php?id={$row['id']}'><button class='btn btn-danger'>Delete</button></a>
                         </div>
                     </div>";
-        }
-        ?>
+}
+?>
     </div>
 
 </body>
