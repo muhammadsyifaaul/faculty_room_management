@@ -3,7 +3,7 @@
 $server = "localhost";
 $username = "bluebird_user";
 $password = "password";
-$database = "bluebirdhotel";
+$database = "walifaroma";
 
 $conn = mysqli_connect($server, $username, $password, $database);
 
