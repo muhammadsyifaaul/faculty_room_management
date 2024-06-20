@@ -22,6 +22,12 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
     <link rel="stylesheet" href="./css/flash.css">
     <title>FACULTY ROOM MANAGEMENT SYSTEM</title>
+    <style>
+        .logo p {
+            margin-top: 1rem;
+            font-size: 40px;
+        }
+    </style>
 </head>
 
 <body>
@@ -48,7 +54,7 @@ session_start();
     <section id="auth_section">
 
         <div class="logo">
-            <img class="bluebirdlogo" src="./image/logouin.jpg" alt="logo">
+            <img class="bluebirdlogo" src="./image/logouin-removebg-preview.png" alt="logo">
             <p>WALIFAROMA</p>
         </div>
 
