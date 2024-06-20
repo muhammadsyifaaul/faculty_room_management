@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 20, 2024 at 03:04 PM
+-- Generation Time: Jun 20, 2024 at 08:08 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -63,23 +63,6 @@ CREATE TABLE `resev_ruangan` (
 
 INSERT INTO `resev_ruangan` (`id`, `nama_dosen`, `matkul`, `jam_mulai`, `tanggal`, `jam_selesai`, `no_ruang`, `fakultas`) VALUES
 (54, 'Abdul Kohar', 'Pemograman Web', '08:40:00', '2024-06-11', '11:20:00', 2.2, 'FST');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `room`
---
-
-CREATE TABLE `room` (
-  `id` int(30) NOT NULL,
-  `type` varchar(50) NOT NULL,
-  `bedding` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `room`
---
-
 
 -- --------------------------------------------------------
 
@@ -158,18 +141,6 @@ ALTER TABLE `resev_ruangan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `room`
---
-ALTER TABLE `room`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `roombook`
---
-ALTER TABLE `roombook`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `ruangan`
 --
 ALTER TABLE `ruangan`
@@ -196,18 +167,6 @@ ALTER TABLE `emp_login`
 --
 ALTER TABLE `resev_ruangan`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
-
---
--- AUTO_INCREMENT for table `room`
---
-ALTER TABLE `room`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
-
---
--- AUTO_INCREMENT for table `roombook`
---
-ALTER TABLE `roombook`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `ruangan`

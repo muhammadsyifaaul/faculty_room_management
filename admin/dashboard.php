@@ -108,7 +108,7 @@ $chart_data = substr($chart_data, 0, -2);
             <h1><?php echo $total_fakultas ?></h1>
         </div>
 
-        <div class="box profitbox">
+        <div class="box userbox">
             <h2>User Total</h2>
             <h1><?php echo $userCount ?></h1>
         </div>
@@ -125,7 +125,7 @@ $chart_data = substr($chart_data, 0, -2);
             <canvas id="bookroomchart"></canvas>
             <h3 style="text-align: center;margin:10px 0;">Reserved Room</h3>
         </div>
-        <div class="profitchart">
+        <div class="userchart">
             <div id="userchart"></div>
             <h3 style="text-align: center;margin:10px 0;">Users Reserving Rooms</h3>
         </div>
