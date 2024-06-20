@@ -9,7 +9,7 @@ $usermail = $_SESSION['usermail'];
 if ($usermail == true) {
 
 } else {
-    header("location: http://localhost/hotelmanage_system/index.php");
+    header("location: http://localhost:8080/Management_Ruangan_Fakultas/index.php");
 }
 
 ?>
